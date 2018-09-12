@@ -1,6 +1,5 @@
 #Konuko II Defined
 runs/
-*.csv
 misc/
 
 # Byte-compiled / optimized / DLL files
@@ -93,4 +92,6 @@ ENV/
 # Rope project settings
 .ropeproject
 
-runs/
+runs*/
+AraWordVec.txt
+RetrofitAraWordVec.txt

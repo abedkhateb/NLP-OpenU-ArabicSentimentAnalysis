@@ -10,22 +10,33 @@ def separate_dataset(filename):
     good_out = open("good_"+filename,"w+", encoding='utf8')
     bad_out  = open("bad_"+filename,"w+", encoding='utf8')
 
+    good_test_out = open("good_test_"+filename,"w+", encoding='utf8')
+    bad_test_out  = open("bad_test_"+filename,"w+", encoding='utf8')
     seen = 1;
     with open(filename,'r', encoding='utf8') as f:
         reader = csv.DictReader(f)
-
+        i=0
         for line in reader:
             seen +=1
             sentiment = line['sentiment']
             sentence = line['txt']
+            if i < 3100:
+                if (sentiment == "0"):
+                    bad_out.write(sentence+"\n")
+                else:
+                    good_out.write(sentence+"\n")
 
-            if (sentiment == "0"):
-                bad_out.write(sentence+"\n")
+                if (seen%10000==0):
+                    print(seen);
             else:
-                good_out.write(sentence+"\n")
+                if (sentiment == "0"):
+                    bad_test_out.write(sentence+"\n")
+                else:
+                    good_test_out.write(sentence+"\n")
 
-            if (seen%10000==0):
-                print(seen);
+                if (seen%10000==0):
+                    print(seen);
+            i+=1
 
     good_out.close();
     bad_out.close();
