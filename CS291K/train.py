@@ -31,7 +31,7 @@ l2_reg_lambda = 0.0
 
 # Training parameters
 batch_size = 128
-num_epochs = 10 #200
+#num_epochs = 20 #200
 evaluate_every = 100 #100
 checkpoint_every = 200 #100
 num_checkpoints = 10 #Checkpoints to store
@@ -43,7 +43,7 @@ filename = "astd-artwitter.csv"
 goodfile = "good_astd-artwitter.csv"
 badfile = "bad_astd-artwitter.csv"
 
-def main(embdFilePath, embdDim, outFolderName):
+def main(embdFilePath, embdDim, outFolderName, num_epochs):
 
     # Load data
     print("Loading data...")
@@ -186,5 +186,7 @@ if __name__ == "__main__":
                     help='embeddings file vectors dimensions')
     parser.add_argument('-o', action='store', dest='outFolderName',
                     help='Output folder name')
+    parser.add_argument('-p', action='store', dest='epochs', default=10,
+                    type=int, help='num of epochs to run on batch')					
     results = parser.parse_args()
-    main(results.embdFilePath, results.embdDim, results.outFolderName)
+    main(results.embdFilePath, results.embdDim, results.outFolderName, results.epochs)

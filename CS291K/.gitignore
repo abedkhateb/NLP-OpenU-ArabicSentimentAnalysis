@@ -95,3 +95,4 @@ ENV/
 runs*/
 AraWordVec.txt
 RetrofitAraWordVec.txt
+RunAllModels*.bat

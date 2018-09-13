@@ -7,6 +7,7 @@ import numpy as np
 from tensorflow.contrib import learn
 import argparse
 from vocabulary_extractor import generateData
+import os
 
 def tokenizer(iterator):
   """Tokenizer generator.
@@ -39,7 +40,8 @@ def main(emb_path, model_directory, model_metadata):
     
     sess=tf.Session()    
     #First let's load meta graph and restore weights
-    saver = tf.train.import_meta_graph(model_metadata)
+    metadataFilePath = os.path.join(model_directory, model_metadata)
+    saver = tf.train.import_meta_graph(metadataFilePath)
     saver.restore(sess,tf.train.latest_checkpoint(model_directory))
 
     # Now, let's access and create placeholders variables and
@@ -66,6 +68,10 @@ def main(emb_path, model_directory, model_metadata):
     print(results)
     print(('Accuracy: %f' % (float(correctPred)/len(labels))))
 
+    statsFilePath = os.path.join(model_directory, "stats.txt")
+    statsFile = open(statsFilePath, "w")
+    statsFile.write(('Accuracy: %f \n' % (float(correctPred)/len(labels))))
+    statsFile.close()
     #out = sess.run(y,feed_dict)
     #print(out)
     #This will print 60 which is calculated 
@@ -77,9 +83,9 @@ if __name__ == "__main__":
     parser.add_argument('-e', action='store', dest='embeddings_path',
                     help='path to words vectors data set')
     parser.add_argument('-m', action='store', dest='model_dir',
-                    help='path to saved model folder')
+                    help='path to saved model checkpoints folder')
     parser.add_argument('-i', action='store', dest='model_metadata',
-                    help='path to saved model metadata file')
+                    help='file name to saved model metadata file')
     parser.add_argument('-d', action='store', dest='embdDim', type=int,
                     help='embeddings file vectors dimensions')
     results = parser.parse_args()
